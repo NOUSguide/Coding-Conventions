@@ -1,6 +1,6 @@
 # Objective-C Coding Convention and Best Practices
 
-Most of these guidelines are to match Apple's documentation and community-accepted best practices. This document is mainly targeted toward iOS development, but applies to Mac as well.
+Most of these guidelines are to match Apple's documentation and community-accepted best practices. This document is mainly targeted towards iOS development, but applies to Mac as well.
 
 ## Usage
 
@@ -19,6 +19,8 @@ Warnings in your own code should be fixed in general. Sometimes it is not possib
 
 #pragma clang diagnostic pop
 ```
+
+Another option, which again should be rarely used is to silence warnings in a file completely. This should only be done on files of third-party-libraries which won't get changed. For this one has to specify the option `-w` as Compiler Flag
 
 ## Static Analyzer
 
