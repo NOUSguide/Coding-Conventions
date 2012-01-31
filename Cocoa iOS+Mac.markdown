@@ -468,3 +468,7 @@ The application delegate, if its a separate class, should be named AppDelegate a
 * http://stackoverflow.com/questions/155964/what-are-best-practices-that-you-use-when-writing-objective-c-and-cocoa
 * http://cocoadevcentral.com/articles/000082.php
 * http://cocoadevcentral.com/articles/000083.php
+
+#### Attribution
+
+This document is heaviliy based on Sam Soffes' coding conventions, thanks for making publicly available.
