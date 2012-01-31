@@ -460,3 +460,11 @@ The info.plist should always be named Info.plist and not Project_Info.plist or a
 ## App Delegate
 
 The application delegate, if its a separate class, should be named AppDelegate and not Project_AppDelegate or anything else.
+
+## Other Sources to look at
+
+* Apple HIG: http://developer.apple.com/library/ios/#documentation/UserExperience/Conceptual/MobileHIG/Introduction/Introduction.html
+* The Objective-C programming language: http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/ObjectiveC/Introduction/introObjectiveC.html
+* http://stackoverflow.com/questions/155964/what-are-best-practices-that-you-use-when-writing-objective-c-and-cocoa
+* http://cocoadevcentral.com/articles/000082.php
+* http://cocoadevcentral.com/articles/000083.php
