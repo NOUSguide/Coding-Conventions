@@ -20,7 +20,22 @@ Warnings in your own code should be fixed in general. Sometimes it is not possib
 #pragma clang diagnostic pop
 ```
 
-Another option, which again should be rarely used is to silence warnings in a file completely. This should only be done on files of third-party-libraries which won't get changed. For this one has to specify the option `-w` as Compiler Flag
+Another option, which again should be rarely used is to silence warnings in a file completely. This should only be done on files of third-party-libraries which won't get changed. For this one has to specify the option `-w` as Compiler Flag for a file (Target - Build Phases - Compile Sources).
+
+## TODOs
+
+Todos should be marked as follows as should contain a brief description of what there is to do:
+
+```objective-c
+ // TODO: Fix the Bug XYZ that happens when the user clicks on the second button while the App is loading
+```
+
+Here's a handy script which can be added as a Build Phase (Target - Build Phases - Add Build Phase - Run Script) to your project that automatically generates a warning out of each TODO-Comment:
+
+```bash
+ KEYWORDS="TODO:|FIXME:|\?\?\?:|\!\!\!:"
+find "${SRCROOT}" \( -name "*.h" -or -name "*.m" \) -print0 | xargs -0 egrep --with-filename --line-number --only-matching "($KEYWORDS).*\$" | perl -p -e "s/($KEYWORDS)/ warning: \$1/"
+```
 
 ## Static Analyzer
 
