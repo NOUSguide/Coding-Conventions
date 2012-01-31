@@ -449,6 +449,10 @@ Is it preferred to tell the compiler the type of a variable, if possible. That m
 
 Singletons should be **avoided** whenever possible since they create a global dependency and are considered bad practise. However there are of course appropriate uses of Singletons, but there should not be a general `ApplicationManager` or something similar that handles a lot of functionality (see Encapsulation).
 
+## Blocks/GCD
+
+Blocks shall be heavily used and are preferred to delegate-methods in a lot of cases (but not all). GCD shall be used as a lightweight mechanism for parallelism, whenever cancellation of operations is needed NSOperation/NSOperationQueue should be used instead.
+
 ## Info.plist
 
 The info.plist should always be named Info.plist and not Project_Info.plist or anything else.
