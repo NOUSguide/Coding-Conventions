@@ -260,7 +260,7 @@ Any method that is empty or just calls super should be removed from the source c
 If -dealloc is implemented (ARC) it should be placed directly below the -init methods of any class. If there are no -init methods then it should be the first method after class level methods. On non-ARC code dealloc **must** always be implemented and release all the iVars.
 
 ## init
-The designated initializer of a class shall be marked with a comment in the header file, the designated initializer of the base-class should **always** be overridden. e.g. always override initWithFrame in your UIView-subclass.
+The designated initializer of a class shall be marked with a comment in the header file, the designated initializer of the base-class should **always** be overridden. e.g. always override initWithFrame in your UIView-subclass. Dot-Notation shall not be used in init and dealloc, only direct iVar-access.
 
 ## Private Methods and Properties
 
