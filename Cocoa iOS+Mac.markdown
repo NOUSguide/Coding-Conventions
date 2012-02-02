@@ -508,9 +508,9 @@ The application delegate, if its a separate class, should be named AppDelegate a
 
 ## Example Code
 
-```objective-c
+MSCanteenMenuParser.h
 
-// MSCanteenMenuParser.h
+```objective-c
 
 #import "MSJSONParser.h"
 
@@ -524,9 +524,9 @@ The application delegate, if its a separate class, should be named AppDelegate a
 @end
 ```
 
-```objective-c
+MSCanteenMenuParser.m
 
-// MSCanteenMenuParser.m
+```objective-c
 
 #import "MSCanteenMenuParser.h"
 #import "MSCanteen.h" // import here to make known in implementation-file
