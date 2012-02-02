@@ -470,6 +470,7 @@ Singletons should be **avoided** whenever possible since they create a global de
 
 Blocks shall be heavily used and are preferred to delegate-methods in a lot of cases (but not all). GCD shall be used as a lightweight mechanism for parallelism, whenever cancellation of operations is needed NSOperation/NSOperationQueue should be used instead.
 
+
 ## Info.plist
 
 The info.plist should always be named Info.plist and not Project_Info.plist or anything else.
@@ -485,6 +486,97 @@ The application delegate, if its a separate class, should be named AppDelegate a
 * http://stackoverflow.com/questions/155964/what-are-best-practices-that-you-use-when-writing-objective-c-and-cocoa
 * http://cocoadevcentral.com/articles/000082.php
 * http://cocoadevcentral.com/articles/000083.php
+
+## Example Code
+
+```objective-c
+
+// MSCanteenMenuParser.h
+
+#import "MSJSONParser.h"
+
+@class MSCanteen;    // class-directive instead of import
+
+@interface MSCanteenMenuParser : MSJSONParser // no iVar-section
+
+// the designated initializer
+- (id)initWithJSON:(id)JSON canteen:(MSCanteen *)canteen;
+
+@end
+```
+
+```objective-c
+
+// MSCanteenMenuParser.m
+
+#import "MSCanteenMenuParser.h"
+#import "MSCanteen.h" // import here to make known in implementation-file
+#import "FKIncludes.h"
+
+// Private Class Extension for private methods, properties etc.
+@interface MSCanteenMenuParser ()
+
+@property (nonatomic, strong) MSCanteen *canteen;
+
+@end
+
+@implementation MSCanteenMenuParser
+
+@synthesize canteen = canteen_;    // synthesize with trailing "_"
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark - Lifecycle
+////////////////////////////////////////////////////////////////////////
+
+- (id)initWithJSON:(id)JSON canteen:(MSCanteen *)canteen {
+    if ((self = [super initWithJSON:JSON])) {
+        canteen_ = canteen;
+    }
+    
+    return self;
+}
+
+- (id)initWithJSON:(id)JSON {
+    // Usage of Assert
+    NSAssert(NO, @"Cannot parse menu without known canteen");
+    return [self initWithJSON:JSON canteen:nil];
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark - MSJSONParser
+////////////////////////////////////////////////////////////////////////
+
+- (void)parseWithCompletion:(ms_network_block_t)completion {
+    // all menus of the given canteen
+    NSArray *menus = [self.JSON valueForKey:FKConstant.JSON.CanteenMenu.RootNode];
+    
+    if (menus.count == 0) {
+        [self callCompletion:completion statusCode:MSStatusCodeJSONError];
+    }
+    
+    // format of long method call
+    [FKPersistenceAction persistData:menus
+                          entityName:[MSCanteenMenu entityName]
+                     dictionaryIDKey:FKConstant.JSON.CanteenMenu.Name
+                       databaseIDKey:[MSCanteenMenu uniqueKey]
+                         updateBlock:^(MSCanteenMenu *canteenMenu, NSDictionary *data, NSManagedObjectContext *localContext) {
+                             canteenMenu.canteen = [self.canteen inContext:localContext];
+                             
+                             // parse the canteen menu itself
+                             [canteenMenu setFromDictionary:data];
+                             // parse the menu items
+                             [canteenMenu setItemsFromArray:[data valueForKey:FKConstant.JSON.CanteenMenu.Items]];
+                             
+                             [localContext save];
+                         } completion:^{
+                             [self callCompletion:completion statusCode:MSStatusCodeSuccess];
+                         }];
+}
+
+@end
+
+
+```
 
 #### Attribution
 
