@@ -470,6 +470,25 @@ Singletons should be **avoided** whenever possible since they create a global de
 
 Blocks shall be heavily used and are preferred to delegate-methods in a lot of cases (but not all). GCD shall be used as a lightweight mechanism for parallelism, whenever cancellation of operations is needed NSOperation/NSOperationQueue should be used instead.
 
+## Asserts
+
+Asserts shall be used to fail early and often. Known assertions shall be expressed in code to not only crash as early as possible if the assertion is violated but to also guide the developer and whoever reads the code.
+
+```objective-c
+
++ (NSArray *)indexPathsFromRow:(NSInteger)startRow toRow:(NSInteger)endRow inSection:(NSInteger)section {
+    NSAssert(endRow >= startRow, @"endRow must be greater or equal than startRow");
+    
+    NSMutableArray *indexPaths = [NSMutableArray arrayWithCapacity:endRow-startRow+1];
+    
+    for (NSInteger row = startRow; row <= endRow; row++) {
+        [indexPaths addObject:[NSIndexPath indexPathForRow:row inSection:section]];
+    }
+    
+    return [indexPaths copy];
+}
+
+```
 
 ## Info.plist
 
