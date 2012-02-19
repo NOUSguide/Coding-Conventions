@@ -458,6 +458,17 @@ typedef enum {
 } NGHUDViewType;
 ```
 
+## Objetive C Literals (LLVM 4.0 and up)
+
+As soon as LLVM 4.0 is ready for production (Xcode 4.4 non-beta) the new Objective C literals should be used to keep the code concise and easy to read.
+
+```objective-c
+
+NSMutableDictionary *status = {@"llvm4IsAwesome" : @YES, @"javaIsAwesome" : @NO};
+@status[@"excited"] = @YES; // instead of [status setValue:[NSNumber numberWithBool:YES] forKey:@"excited"];
+
+```
+
 ## Dynamic Typing
 
 Is it preferred to tell the compiler the type of a variable, if possible. That means the use of bare `id` should be avoided, instead a specified protocol or class name should be used.
