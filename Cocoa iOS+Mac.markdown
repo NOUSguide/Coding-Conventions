@@ -509,6 +509,10 @@ The info.plist should always be named Info.plist and not Project_Info.plist or a
 
 The application delegate, if its a separate class, should be named AppDelegate and not Project_AppDelegate or anything else.
 
+## Submodules, Third-Party Code
+
+When using Third-Party Code available at Github it is recommended to fork the repository to the NOUSguide Github account to have a better control over the code. If the code isn't available on Github it is recommended to create a repository with the NOUSguide account. Third-Party Code shall not be copied from project to project but should be integrated as git submodules or fake git submodules.
+
 ## Other Sources to look at
 
 * Apple HIG: http://developer.apple.com/library/ios/#documentation/UserExperience/Conceptual/MobileHIG/Introduction/Introduction.html
