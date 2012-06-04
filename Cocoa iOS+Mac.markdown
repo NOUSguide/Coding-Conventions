@@ -168,6 +168,14 @@ else {
 
 If comments are desired around the `if` and `else` statement, they should be formatted like the example above with one empty line between the end of a block and the following comment.
 
+### Ternary Operator
+
+```objective-c
+label.frame = (inPseudoEditMode) ? kLabelIndentedRect : kLabelRect;
+```
+
+Use the ternary operator only for assignments with simple conditions that probably won't be expanded. (readability & expandability)
+
 
 ### Switch
 
