@@ -152,7 +152,7 @@ if (button.enabled) {
 }
 ```
 
-`else` statements should begin on the same line as their preceding `if` statement.
+`else` statements can begin on the same line as their preceding `if` statement or in the next line
     
 ```objective-c
 // Comment explaining the conditional
