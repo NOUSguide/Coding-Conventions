@@ -15,6 +15,7 @@ Warnings in your own code should be fixed in general. Sometimes it is not possib
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 
 // Code that generates a warning but really shouldn't
+// I deactivated this warning because ...
 // ...
 
 #pragma clang diagnostic pop
@@ -30,11 +31,14 @@ Todos should be marked as follows as should contain a brief description of what 
  // TODO: Fix the Bug XYZ that happens when the user clicks on the second button while the App is loading
 ```
 
-Here's a handy script which can be added as a Build Phase (Target - Build Phases - Add Build Phase - Run Script) to your project that automatically generates a warning out of each TODO-Comment:
+Here's a handy script which can be added as a Build Phase (Target - Build Phases - Add Build Phase - Run Script) to your project that automatically generates a warning out of each TODO-Comment, when in release build:
 
 ```bash
- KEYWORDS="TODO:|FIXME:|\?\?\?:|\!\!\!:"
+KEYWORDS="TODO:|FIXME:|\?\?\?:|\!\!\!:"
+
+if [ $CONFIGURATION != "Debug" ]; then
 find "${SRCROOT}" \( -name "*.h" -or -name "*.m" \) -print0 | xargs -0 egrep --with-filename --line-number --only-matching "($KEYWORDS).*\$" | perl -p -e "s/($KEYWORDS)/ warning: \$1/"
+fi
 ```
 
 ## Static Analyzer
@@ -57,7 +61,7 @@ answer++;
 answer = 40 + 2;
 ```
 
-The `++`, `--`, etc should **always** be after the variable instead of before to be consistent with other operators. Operators separated should be surrounded by spaces unless there is no right operand.
+Operators separated should be surrounded by spaces unless there is no right operand.
 
 
 ## Types
@@ -67,7 +71,7 @@ The `++`, `--`, etc should **always** be after the variable instead of before to
 All Apple types should be used over primitive ones. For example, if you are working with time intervals, use `NSTimeInterval` instead of `double` even though it is synonymous. This is considered best practice and makes for clearer code.
 
 ## Spacing
-Code shall be indented by 4 spaces. If you want to wrap a long line of code then make sure it is colon aligned per Xcode’s formatting. Keywords such as if, while, do, switch, etc. should have a space after them. Wasted vertical space should be avoided, there should not be more than one empty line.
+Code shall be indented by 4 (Tabs) spaces, as per Xcode's default. If you want to wrap a long line of code then make sure it is colon aligned per Xcode’s formatting. Keywords such as if, while, do, switch, etc. should have a space after them. Wasted vertical space should be avoided, there should not be more than one empty line.
 
 ```objective-c
 // long method name calling convention
@@ -85,7 +89,8 @@ color = [NSColor colorWithCalibratedHue:0.10
 }
 
 
-- (NSString *)stringByReplacingOccurrencesOfString:(NSString *)target withString:(NSString *)replacement {
+- (NSString *)stringByReplacingOccurrencesOfString:(NSString *)target withString:(NSString *)replacement
+{ // ok here too
     return nil;
 }
 ```
@@ -96,7 +101,8 @@ There should **never** be a space before or after colons. If the parameter type 
 
 The return type should **never** be ommitted (defaults to id for methods and to int for functions).
 
-There should **always** be a space between the end of the method and the opening bracket. The opening bracket should **always** be on the same line.
+There should **always** be a space between the end of the method and the opening bracket. 
+The opening bracket can be either on the next line, or on the same line.
 
 
 ## Pragma Mark and Implementation Organization
@@ -137,7 +143,7 @@ There should be a pragma mark before each group, formatted like above (A good ti
 
 ## Control Structures
 
-There should **always** be a space after the control structure (i.e. `if`, `else`, etc).
+There should be a space after the control structure (i.e. `if`, `else`, etc).
 
 
 ### If/Else
@@ -244,8 +250,6 @@ For example, if a header prefix looks like the following:
 #endif
 ```
 
-`#import <Foundation/Foundation.h>` should never occur in the project outside of the header prefix.
-
 ## Properties
 
 ```objective-c
@@ -274,7 +278,7 @@ The header file should only contain methods and properties, that belong to you i
 Any method that is empty or just calls super should be removed from the source code as they are redundant.
 
 ## dealloc
-If -dealloc is implemented (ARC) it should be placed directly below the -init methods of any class. If there are no -init methods then it should be the first method after class level methods. On non-ARC code dealloc **must** always be implemented and release all the iVars.
+If -dealloc is implemented (ARC) it should be placed directly below the -init methods of any class, or at the end of the file. If there are no -init methods then it should be the first method after class level methods. On non-ARC code dealloc **must** always be implemented and release all the iVars.
 
 ## init
 The designated initializer of a class shall be marked with a comment in the header file, the designated initializer of the base-class should **always** be overridden. e.g. always override initWithFrame in your UIView-subclass. Dot-Notation shall not be used in init and dealloc, only direct iVar-access.
